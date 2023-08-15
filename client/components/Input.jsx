@@ -10,8 +10,8 @@ export const Input = ({ addToQueue }) => {
 
   return (
     <div id="input-bar">
-      <input type="number" value={input} onChange={(e) => setInput(e.target.value)}></input>
-      <button onClick={() => onSubmit(Number(input))}>Add to Queue</button>
+      <input type="number" value={input} onChange={(e) => setInput(e.target.valueAsNumber)} required ></input>
+      <button onClick={() => onSubmit(input)}>Add to Queue</button>
     </div>
   )
 };
