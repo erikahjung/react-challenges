@@ -20,48 +20,56 @@ function App () {
       }
     }
 
-    let targetIndex = null;
+    // let targetIndex = queues[targetKey].length;
     setQueues((prevQueues) => {
-      const newQueues = [];
-      for (let i = 0; i < prevQueues.length; i++) {
-        newQueues[i] = [...prevQueues[i]];
-        if (i === targetKey) {
-          newQueues[i].push(val);
-          targetIndex = newQueues[i].length - 1;
-        }
-      }
-      return newQueues;
+      return prevQueues.map((q, index) => index === targetKey ? [...q, val] : q)
     })
     
-    let intervalID = setInterval(() => decrementValue(targetKey, targetIndex), 1000);
-    setTimeout(() => {
-      clearInterval(intervalID);
-    }, val * 1000);
+    // let intervalID = setInterval(() => decrementValue(targetKey, targetIndex), 1000);
+    // setTimeout(() => {
+    //   clearInterval(intervalID);
+    // }, val * 1000);
   }
 
-  const decrementValue = (queue, index) => {
-    setQueues((prevQueues) => {
-      const updatedQueues = [];
-        for (let i = 0; i < prevQueues.length; i++) {
-          updatedQueues[i] = [...prevQueues[i]];
-          if (i === queue) {
-            updatedQueues[i][index]--;
-          }
-        }
-      return updatedQueues;
-    })
-  };
+  //decrement EACH number in the queue by 1 every 1 second
+  // const decrementValue = (queue, index) => {
+  //   setQueues((prevQueues) => {
+  //     const updatedQueues = [];
+  //       for (let i = 0; i < prevQueues.length; i++) {
+  //         updatedQueues[i] = [...prevQueues[i]];
+  //         if (i === queue) {
+  //           updatedQueues[i][index]--;
+  //         }
+  //       }
+  //     return updatedQueues;
+  //   })
+  // };
+
+  //decrement the FIRST number in the queue by 1 every 1 second
+  useEffect(() => {
+    const intervalID = setInterval(() => {
+      setQueues((prevQueues) => {
+        return prevQueues.map((q) => {
+          if (!q.length) return [];
+
+          return q[0] ? [q[0] - 1, ...q.slice(1)] : [...q.slice(1)]
+        })
+      })
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalID);
+    }
+  }, [])
 
   return (
     <>
       <Header link={"https://www.youtube.com/watch?v=B9fmr1TpKHE"} title={"Grocery Store Queue"} />
       <Input addToQueue={addToQueue}/>
       <div id="queue-container">
-        <Queue key={0} id={0} values={queues[0]} />
-        <Queue key={1} id={1} values={queues[1]} />
-        <Queue key={2} id={2} values={queues[2]} />
-        <Queue key={3} id={3} values={queues[3]} />
-        <Queue key={4} id={4} values={queues[4]} />
+        {queues.map((arr, i) =>
+          <Queue key={i} id={i} values={arr} />
+        )}
       </div>
     </>
   )
