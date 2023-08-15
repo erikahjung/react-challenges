@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import { Input } from './Input.jsx';
 import { Queue } from './Queue.jsx';
-import { setIn } from 'immutable';
 import { Header } from './Header.jsx';
 
 function App () {
