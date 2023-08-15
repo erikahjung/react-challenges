@@ -1,8 +1,10 @@
 import React from 'react';
 
+import { Header } from './Header.jsx';
+
 function App () {
   return (
-    <h1>React Challenge</h1>
+    <Header link={""} title={""} />
   )
 }
 
