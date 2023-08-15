@@ -1,14 +1,21 @@
-import React, { memo } from "react";
+import React, { memo, useRef } from "react";
 
-export const Queue = ({ values }) => {
-  const list = values.map((val) => {
-    <p>{val}</p>
-  })
+export const Queue = ({ id, values }) => {
+  // const list = values.map((val, index) => <p key={index}>{val}</p>);
 
-  console.log(list);
+  const list = values.reduce((acc, curr, i) => {
+    if (curr > 0) {
+      acc.push(<p key={i}>{curr}</p>)
+    }
+    return acc;
+  }, [])
+
+  // let count = useRef(0);
 
   return (
     <div className="queue">
+      <p><b>{id}</b></p>
+      {/* {"re-render count: " + count.current++} */}
       {list}
     </div>
   )
