@@ -4,6 +4,8 @@ const app = express();
 const PORT = 3000;
 require('dotenv').config();
 
+const FeedbackRouter = require('./Routers/feedbackRouter')
+
 //parse the application/json & the application/x-www-form-urlencoded incoming Request Object
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
@@ -11,10 +13,13 @@ app.use(express.json());
 //serve the webpack bundle.js file and the client the html file
 // if (process.env.NODE_ENV === 'production') {
 app.use('/build', express.static(path.join(__dirname, '../build')));
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../index.html'));
 })
 // }
+
+// api for employee survey feedback
+app.use('/api/feedback', FeedbackRouter);
 
 //unknown route handler
 app.use((req, res) => {
